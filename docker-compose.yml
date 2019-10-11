@@ -10,6 +10,7 @@ services:
   worker:
     build: worker/
     volumes:
-      - ./worker:/workdir/worker
+      - ./worker:/workdir/worker.env
+      - ./nltk_data:/root/nltk_data
     env_file:
       - ./worker/.env

@@ -38,6 +38,7 @@ class TwitterClient(object):
         ) as resp:
             for i in resp.iter_lines():
                 tweet = loads(i)
+                # Retweets do not have geo data, therefore tweet must be an original tweet
                 if "extended_tweet" in tweet:
                     yield tweet["extended_tweet"]["full_text"]
                 else:
