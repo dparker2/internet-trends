@@ -9,17 +9,12 @@ RUN pip install gunicorn
 RUN pip install falcon
 RUN pip install Jinja2
 
+# Make directories
 RUN mkdir /workdir
 RUN mkdir /workdir/app
-RUN mkdir /workdir/test
-
-# Copy start script
-COPY ./start.sh /workdir
-RUN chmod +x /workdir/start.sh
 
 # Copy python files
-COPY ./app /workdir/app
-COPY ./test /workdir/test
+COPY . /workdir/app
 WORKDIR /workdir
 
-CMD ["./start.sh"]
+ENTRYPOINT ["gunicorn", "--reload", "-b 0.0.0.0:8080", "app.main:app"]

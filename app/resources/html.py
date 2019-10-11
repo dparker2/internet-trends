@@ -8,7 +8,7 @@ def ensure_html_content(request, response, resource):
 @falcon.after(ensure_html_content)
 class HTMLResource:
     def __init__(self):
-        from templates import env
+        from app.templates import env
 
         self.templates = env
 

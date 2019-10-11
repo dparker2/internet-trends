@@ -1,5 +1,5 @@
 import falcon
-from resources.html import HTMLResource
+from app.resources.html import HTMLResource
 
 
 print("PRINTED")

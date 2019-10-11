@@ -1,8 +1,15 @@
 version: "3"
 services:
   web:
-    build: .
+    build: app/
+    command: "--reload"
     ports:
       - 8080:8080
     volumes:
-      - ./app:/app
+      - ./app:/workdir/app
+  worker:
+    build: worker/
+    volumes:
+      - ./worker:/workdir/worker
+    env_file:
+      - ./worker/.env
