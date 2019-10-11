@@ -1,0 +1,14 @@
+{% extends "base/base.j2" %} {% block title %}Internet Trends{% endblock %} {%
+block body %}
+<div class="flex">
+  <section class="w-1/2">
+    <h2 class="text-2xl">Twitter</h2>
+    <ol class="ml-5 list-decimal">
+      {% for trend in twitter %}
+      <li>{{ trend }}</li>
+      {% endfor %}
+    </ol>
+  </section>
+  <section class="w-1/2"><h2 class="text-2xl">Reddit</h2></section>
+</div>
+{% endblock %}
