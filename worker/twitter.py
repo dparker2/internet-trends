@@ -17,6 +17,7 @@ class TwitterClient(object):
 
     STREAM = "https://stream.twitter.com"
     FILTER_URL = f"{STREAM}/1.1/statuses/filter.json"
+    SAMPLE_URL = f"{STREAM}/1.1/statuses/sample.json"
 
     def __init__(self):
         self.session = OAuth1Session(
@@ -28,17 +29,19 @@ class TwitterClient(object):
 
     def stream(self):
         with self.session.get(
-            self.FILTER_URL,
+            self.SAMPLE_URL,
             params=dict(
                 filter_level="low",
                 language="en",
-                locations=[-180, -90, 180, 90],  # whole planet
             ),
             stream=True,
         ) as resp:
             for i in resp.iter_lines():
                 tweet = loads(i)
-                # Retweets do not have geo data, therefore tweet must be an original tweet
+                if "delete" in tweet:
+                    continue
+                if "retweeted_status" in tweet:
+                    tweet = tweet["retweeted_status"]
                 if "extended_tweet" in tweet:
                     yield tweet["extended_tweet"]["full_text"]
                 else:
