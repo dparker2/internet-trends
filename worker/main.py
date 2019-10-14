@@ -77,6 +77,7 @@ def tweets_file_to_documents():
         [
             (word.text, "HT" if re.match(r"#\S+", word.text) else word.upos)
             for word in sent.words
+            if len(word.text) > 1
         ]
         for sent in doc.sentences
     ]
@@ -92,8 +93,8 @@ def tweets_file_to_documents():
     CHUNK:
         {<HT>}
         {<PROPN><PROPN>*}
-        {<DET|PRON>?<ADJ>*<NOUN>}
-    """  # Third doesn't work well. Picks up too many things.
+        {<NOUN><NOUN>+}
+    """
     chunker = nltk.RegexpParser(patterns)
     nps = [chunker.parse(tokens_tag) for tokens_tag in tokens_tags]
     for tree in nps:
@@ -143,7 +144,7 @@ if __name__ == "__main__":
         map(lambda t: (sum(t[1]), t[0]), score_topics), key=lambda t: t[0], reverse=True
     )
     for score, topics in score_topics:
-        if score > 0.05:  # Maybe move this up?
-            print(topics)
+        if score > 0.2:
+            print(f"{score}: {topics}")
 
     print("worker!")
