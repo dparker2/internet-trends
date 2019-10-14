@@ -105,3 +105,4 @@ venv.bak/
 
 # nltk download volume
 nltk_data
+en_ewt_models
